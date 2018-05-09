@@ -32,6 +32,14 @@ function DrawSnakeParts()
 	}
 }
 
+function DrawWalls()
+{
+	for(var i = 0; i < Wall.possition.length; i++)
+	{
+		Draw(context, Wall.color, Wall.possition[i].y, Wall.possition[i].x, Wall.size, Wall.size);
+	}
+}
+
 function DrawGameElements()
 { 
 	if(create == true)
