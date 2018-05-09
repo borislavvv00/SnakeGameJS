@@ -1,13 +1,12 @@
 function EatFood(foodSize)
 {
-	if(Food.X >= Snake.headX && Food.X < Snake.headX + Snake.size && Food.Y >= Snake.headY && Food.Y < Snake.headY + Snake.size)
+	if(Food.X >= Snake.headX && Food.X <= Snake.headX + Snake.size && Food.Y >= Snake.headY && Food.Y <= Snake.headY + Snake.size)
 	{
 		score++;  
 		timeBeforeSupperFood--;
 		Snake.numberOfParts++;
-		Food.X = Math.floor((Math.random() * (map.height - 5)) + 5);
-		Food.Y = Math.floor((Math.random() * (map.width - 5)) + 5);
-		Draw(context, Food.color, Food.Y, Food.X, foodSize, foodSize); // draw new food
+		Food.X = (Math.floor(Math.random() * (map.height - (Wall.size + 5))) + Wall.size);
+		Food.Y = (Math.floor(Math.random() * (map.width - (Wall.size + 5))) + Wall.size);
 		if(foodSize == Food.supperFoodSize) // checkes if the eaten food was supper food
 		{
 			timeForSupperFood = true;
@@ -44,7 +43,7 @@ function ChooseFoodToDraw()
 	}
 }
 
-function TouchTheWall()
+function TouchMapBorder()
 {
 	if(Snake.headX == 0)//top border
 	{
@@ -61,6 +60,32 @@ function TouchTheWall()
 	else if(Snake.headY == map.width)//rigth border
 	{
 		Snake.headY = 0;
+	}
+}
+
+function TouchWall()
+{
+	for(var i = 0; i < Wall.possition.length; i++)
+	{
+		if(Snake.headX == Wall.possition[i].x && Snake.headY == Wall.possition[i].y)
+		{
+			Snake.direction = "stop";
+			console.log("game over");
+		}	
+	}
+}
+
+function CreateWall()
+{
+	for(var i = 0; i < map.width; i++)
+	{
+		Wall.possition.push({ x : 0, y : i });
+		Wall.possition.push({ x : map.height - Wall.size, y : i });
+	}
+	for(var i = 0; i < map.height; i++)
+	{
+		Wall.possition.push({ x : i, y : 0 });
+		Wall.possition.push({ x : i, y : map.width - Wall.size });
 	}
 }
 
