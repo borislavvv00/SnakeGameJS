@@ -4,6 +4,8 @@ var score = 0;
 var timeForSupperFood = false;//if now is supper food draw
 var frameCount = 0;
 var frames = 1;
+var create = false;
+var drawWall = false;
 
 function Draw(context, color, y, x, ySize, xSize) //Draw an element
 {
@@ -32,6 +34,11 @@ function DrawSnakeParts()
 
 function DrawGameElements()
 { 
+	if(create == true)
+	{	
+		CreateWall();
+		create = false;
+	}
 	frameCount++;
 	if(frameCount == frames)//push new tail part coordinates every 21 frames
 	{	
@@ -40,9 +47,14 @@ function DrawGameElements()
 	}
 	Draw(context, "black", 0, 0, map.width, map.height);
 	DrawSnakeParts();
-	ChooseFoodToDraw();
+	if(drawWall == true)
+	{	
+		DrawWalls();
+	}
 	Direction();
-	TouchTheWall();
+	TouchMapBorder();
+	TouchWall();
+	ChooseFoodToDraw();
 	//GameOver();
 	document.getElementById("score").innerHTML = "score = " + score;
 }
