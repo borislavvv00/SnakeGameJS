@@ -5,11 +5,11 @@ function EatFood(foodSize)
 		score++;  
 		timeBeforeSupperFood--;
 		Snake.numberOfParts++;
-		Food.X = (Math.floor(Math.random() * (map.height - (Wall.size + 5))) + Wall.size);
-		Food.Y = (Math.floor(Math.random() * (map.width - (Wall.size + 5))) + Wall.size);
+		Food.X = Math.floor(Math.random() * (map.height - (Wall.size * 2 + 15))) + Wall.size + 10;
+		Food.Y = Math.floor(Math.random() * (map.width - (Wall.size * 2 + 15))) + Wall.size + 10;
 		if(foodSize == Food.supperFoodSize) // checkes if the eaten food was supper food
 		{
-			timeForSupperFood = true;
+			isTimeForSupperFood = true;
 		}
 	}
 }
@@ -29,10 +29,10 @@ function ChooseFoodToDraw()
 		}
 	//---------------------------------------------------------------------------------------------------------------
 		EatFood(Food.supperFoodSize);
-		if(timeForSupperFood == true) // reset the time for supper food
+		if(isTimeForSupperFood == true) // reset the time for supper food
 		{
 			timeBeforeSupperFood = 5;
-			timeForSupperFood = false;
+			isTimeForSupperFood = false;
 			score += 9;
 		}
 	}
@@ -77,27 +77,51 @@ function TouchWall()
 
 function CreateWall()
 {
-	for(var i = 0; i < map.width; i++)
+	for(var i = 0; i < 76; i++)
 	{
-		Wall.possition.push({ x : 0, y : i });
-		Wall.possition.push({ x : map.height - Wall.size, y : i });
-	}
-	for(var i = 0; i < map.height; i++)
-	{
-		Wall.possition.push({ x : i, y : 0 });
-		Wall.possition.push({ x : i, y : map.width - Wall.size });
+		if(i == 0)
+		{
+			Wall.possition.push({ x : 0, y : i });
+		}
+		else if(i >= 1 && i <= 18)
+		{
+			Wall.possition.push({ x : 0, y : Wall.possition[i - 1].y + Wall.size + 1});
+		}
+		else if(i == 19)
+		{
+			Wall.possition.push({ x : map.height - Wall.size - 2, y : 0 });
+		}
+		else if(i >= 20 && i <= 38)
+		{
+			Wall.possition.push({ x : map.height - Wall.size - 2, y : Wall.possition[i - 1].y + Wall.size + 1 });
+		}
+		else if(i == 39)
+		{
+			Wall.possition.push({ x : 1 + Wall.size, y : 0 });
+		}
+		else if(i >= 40 && i <= 58)
+		{
+			Wall.possition.push({ x : 1 + Wall.possition[i - 1].x + Wall.size, y : 0 });
+		}
+		else if(i == 59)
+		{
+			Wall.possition.push({ x : 1 + Wall.size, y : map.width - Wall.size - 2});
+		}
+		else
+		{
+			Wall.possition.push({ x : 1 + Wall.possition[i - 1].x + Wall.size, y : map.width - Wall.size - 2});
+		}
 	}
 }
 
 function GameOver()
 {
-	for(var i = 3; i < Snake.tail.length; i++)
-	{
-		if(Snake.headX == Snake.tail[i].x + Snake.size && Snake.headY > Snake.tail[i].y && Snake.headY < Snake.tail[i].y + Snake.size)
+	if(isWallDrawed == true)
+	{	
+		if(Snake.headX == Wall.size || Snake.headX == map.height - Wall.size * 2|| Snake.headY == Wall.size || Snake.headY == map.width - Wall.size * 2)
 		{
-			gameOver = true;
+			isGameOver = true;
 			Snake.direction = "stop";
-			console.log("game over");
 		}
 	}
 }
