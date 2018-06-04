@@ -1,3 +1,15 @@
+function MoveRules(currentDirection, opositeDirection) // prevent to move up and then down or left and then rigth
+{
+	if(Snake.direction == currentDirection)
+	{
+		Snake.direction = currentDirection;
+	}
+	else 
+	{	
+		Snake.direction = opositeDirection;
+	}
+}
+
 function  GetKeyboardCommand(event) //get keyboard commands and move the snake
 {
 		switch(event.keyCode)
@@ -33,17 +45,5 @@ function Direction()
 		case "left":
 			Snake.headY--;
 			break;
-	}
-}
-
-function MoveRules(p1, p2) // prevent to move up and then down or left and then rigth
-{
-	if(Snake.direction == p1)
-	{
-		Snake.direction = p1;
-	}
-	else 
-	{	
-		Snake.direction = p2;
 	}
 }
