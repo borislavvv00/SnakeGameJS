@@ -3,29 +3,43 @@
  	canvas = document.getElementById("map");
 	context = canvas.getContext("2d");
 	document.addEventListener("keydown", GetKeyboardCommand);
-	var btn = document.getElementById("walls");
-	var btnClick = 0;
-	btn.onclick = function ()
+	
+	var walls = document.getElementById("walls");
+	var wallsClick = 0;
+	walls.onclick = function ()
 	{
-		if(btnClick % 2 == 0)
+		if(isGameOver == false)
 		{
-			btn.innerHTML = "wallsOn";
-			Snake.direction = "stop";
-			create = true;
-			drawWall = true;
+			if(wallsClick % 2 == 0)
+			{
+				walls.innerHTML = "wallsOn";
+				Snake.direction = "stop";
+				isWallCreate = true;
+				isWallDrawed = true;
+			}
+			else
+			{
+				walls.innerHTML = "wallsOff";
+				Snake.direction = "stop";
+				isWallCreate = false;
+				isWallDrawed = false;
+			}
+			wallsClick++;
 		}
-		else
-		{
-			btn.innerHTML = "wallsOff";
-			Snake.direction = "stop";
-			create = false;
-			drawWall = false;
-		}
-		btnClick++;
 	}
-	if(gameOver == false)
+	
+	var restart = document.getElementById("restart");
+	restart.onclick = function()
 	{
-		setInterval(DrawGameElements,1);
+		score = 0;
+		Snake.headX = map.height / 2;
+		Snake.headY = map.width / 2;
+		Snake.direction = "stop";
+		Food.X = 100;
+		Food.Y = 100;
+		isGameOver = false;
 	}
+	
+	setInterval(DrawGameElements, 1);
  }
 )(window,document);
