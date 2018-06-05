@@ -31,6 +31,7 @@
 	var restart = document.getElementById("restart");
 	restart.onclick = function()
 	{
+		DestroySnake();
 		score = 0;
 		Snake.headX = map.height / 2;
 		Snake.headY = map.width / 2;
