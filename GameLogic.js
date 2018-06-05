@@ -70,7 +70,6 @@ function TouchWall()
 		if(Snake.headX == Wall.possition[i].x && Snake.headY == Wall.possition[i].y)
 		{
 			Snake.direction = "stop";
-			console.log("game over");
 		}	
 	}
 }
@@ -112,6 +111,15 @@ function CreateWall()
 			Wall.possition.push({ x : 1 + Wall.possition[i - 1].x + Wall.size, y : map.width - Wall.size - 2});
 		}
 	}
+}
+
+function DestroySnake()
+{
+	while(Snake.tail.length != 0)
+	{
+		Snake.tail.splice(0, 1);
+	}
+	Snake.numberOfParts = 1;
 }
 
 function GameOver()
